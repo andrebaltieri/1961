@@ -12,16 +12,6 @@ namespace TodoCore.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase();
-            
-            // var builder = new ConfigurationBuilder()
-            //     .AddJsonFile("Config/config.json")
-            //     .AddEnvironmentVariables();
-            // var configuration = builder.Build();
-            
-            // var sqlConnectionString = 
-            //     configuration["DataAccessPostgreSqlProvider:ConnectionString"];
-            
-            // optionsBuilder.UseNpgsql(sqlConnectionString);
         }
     }
 }

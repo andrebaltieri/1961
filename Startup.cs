@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TodoCore.Data;
 using Microsoft.Data.Entity;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc.Filters;
 
 namespace TodoCore
 {
@@ -30,11 +33,13 @@ namespace TodoCore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
-            // services.AddEntityFramework()
-            //     .AddNpgsql()
-            //     .AddDbContext<AppDataContext>();
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             services.AddEntityFramework()
                 .AddInMemoryDatabase()
@@ -59,6 +64,15 @@ namespace TodoCore
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
             app.UseStaticFiles();
 
+            app.UseCookieAuthentication(options =>
+            {
+                options.AuthenticationScheme = "Cookie";
+                options.LoginPath = new PathString("/Account/Unauthorized/");
+                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
+                options.AutomaticAuthenticate = true;
+                options.AutomaticChallenge = true;
+            });
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
