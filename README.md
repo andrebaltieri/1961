@@ -1,4 +1,4 @@
-## 1960 - ENTENDENDO AUTENTICAÇÃO E AUTORIZAÇÃO NO ASP.NET CORE ##
+## 1960 - Segurança no ASP.NET Core ##
 Neste treinamento vamos entender como ficou a autenticação e a autorização nas aplicações ASP.NET Core
 
 ### Conteúdo Programático ###
